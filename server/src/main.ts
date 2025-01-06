@@ -1,18 +1,10 @@
 // Load environment variables from .env file
 import "dotenv/config";
 
-import type { RequestHandler } from "express";
-
 // Check database connection
 // Note: This is optional and can be removed if the database connection
 // is not required when starting the application
 import "../database/checkConnection";
-
-const sayWelcome: RequestHandler = (req, res) => {
-  res.send("Welcome to Wild Series !");
-};
-
-app.get("/", sayWelcome);
 
 // Import the Express application from ./app
 import app from "./app";
