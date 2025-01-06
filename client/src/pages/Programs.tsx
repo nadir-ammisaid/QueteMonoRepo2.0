@@ -1,8 +1,17 @@
 import { useEffect, useState } from "react";
 import "./Programs.css";
 
+interface programsType {
+  id: number;
+  title: string;
+  country: string;
+  year: number;
+  synopsis: string;
+  poster: string;
+}
+
 function Programs() {
-  const [programsData, setProgramsData] = useState([]);
+  const [programsData, setProgramsData] = useState<programsType[]>([]);
 
   useEffect(() => {
     fetch("http://localhost:3310/api/programs")
@@ -16,14 +25,14 @@ function Programs() {
       <article>
         {programsData ? (
           <>
-            {programsData.map((tableau) => (
-              <div key={tableau.id}>
-                <h2>{tableau.id}</h2>
-                <h2>{tableau.title}</h2>
-                <h2>{tableau.country}</h2>
-                <h2>{tableau.year}</h2>
-                <p>{tableau.synopsis}</p>
-                <img src={tableau.poster} alt={tableau.title} />
+            {programsData.map((programs) => (
+              <div key={programs.id}>
+                <h2>{programs.id}</h2>
+                <h2>{programs.title}</h2>
+                <h2>{programs.country}</h2>
+                <h2>{programs.year}</h2>
+                <p>{programs.synopsis}</p>
+                <img src={programs.poster} alt={programs.title} />
               </div>
             ))}
           </>
