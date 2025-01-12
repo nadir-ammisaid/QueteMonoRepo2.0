@@ -3,7 +3,7 @@
 const programs = [
   {
     id: 1,
-    title: "The Good Place",
+    title: "The good Place",
     synopsis:
       "À sa mort, Eleanor Shellstrop est envoyée au Bon Endroit, un paradis fantaisiste réservé aux individus exceptionnellement bienveillants. Or Eleanor n'est pas exactement une « bonne personne » et comprend vite qu'il y a eu erreur sur la personne. Avec l'aide de Chidi, sa prétendue âme sœur dans l'au-delà, la jeune femme est bien décidée à se redécouvrir.",
     poster:
@@ -28,9 +28,35 @@ const programs = [
 import type { RequestHandler } from "express";
 
 const browse: RequestHandler = (req, res) => {
-  res.json(programs);
+  if (req.query.q != null) {
+    const filteredPrograms = programs.filter((program) =>
+      program.synopsis.includes(req.query.q as string),
+    );
+
+    res.json(filteredPrograms);
+  } else {
+    res.json(programs);
+  }
+};
+
+/* ************ */
+
+const read: RequestHandler = (req, res) => {
+  // console.log(`Incoming request with params:`, req.params);
+
+  const parsedId = Number.parseInt(req.params.id);
+
+  const program = programs.find((p) => p.id === parsedId);
+
+  if (program != null) {
+    res.json(program);
+  } else {
+    // console.log(`Program not found for ID: ${parsedId}`);
+    res.sendStatus(404);
+    // res.status(404).send("Program not found");
+  }
 };
 
 // Export it to import it somewhere else
 
-export default { browse };
+export default { browse, read };
