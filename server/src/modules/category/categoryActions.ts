@@ -14,17 +14,14 @@ const categories = [
 // Declare the actions
 
 import type { RequestHandler } from "express";
+import categoryRepository from "./categoryRepository";
 
-const browse: RequestHandler = (req, res) => {
-  if (req.query.q != null) {
-    const filteredCategories = categories.filter((category) =>
-      category.name.includes(req.query.q as string),
-    );
+const browse: RequestHandler = async (req, res) => {
+  const categoriesFromDB = await categoryRepository.readAll();
 
-    res.json(filteredCategories);
-  } else {
-    res.json(categories);
-  }
+  res.json(categoriesFromDB);
+
+  // res.json(categories);
 };
 
 /* ************ */
